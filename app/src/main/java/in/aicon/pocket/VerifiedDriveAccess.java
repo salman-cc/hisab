@@ -5,10 +5,11 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
 
-/** Unwired, memory-only token boundary. Before Drive work, resolves the token's account
- * directly with Google's HTTPS userinfo endpoint, rather than trusting a parsed ID token
- * or assuming the authorization picker used the expected account. Never logs tokens.
- * Caller must invalidate pending work with AccountScope before clearing or replacing this.
+/** Memory-only token boundary used by foreground and background Drive operations.
+ * Before Drive work, resolves the token's account directly with Google's HTTPS userinfo
+ * endpoint rather than trusting a parsed ID token or assuming the authorization picker
+ * used the expected account. Never logs tokens. Callers invalidate pending work before
+ * clearing or replacing access.
  */
 public final class VerifiedDriveAccess implements DriveAppData.Access {
  public final String subject,email;

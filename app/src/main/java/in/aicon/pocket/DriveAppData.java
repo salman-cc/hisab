@@ -2,11 +2,12 @@ package in.aicon.pocket;
 
 import java.net.*;import java.io.*;import java.nio.charset.StandardCharsets;import java.util.*;import org.json.*;
 
-/** Unwired Drive appDataFolder transport draft. Uses immutable operation files to avoid
- * relying on unverified Drive-v3 compare-and-swap semantics. No cloud code runs in the UI preview.
- * Sync caller must bind every request to the Google subject, fetch before uploading, merge
- * vector clocks, persist outbox operation/file IDs before sending, and remove financial-content
- * operation files superseded by a tombstone. Tombstones never contain the deleted payload.
+/** Drive appDataFolder HTTP transport used through DriveBarrierTransport by account
+ * sessions. It uses immutable operation files rather than relying on Drive-v3 compare-and-
+ * swap semantics. Sync callers bind requests to the verified Google subject, fetch before
+ * uploading, merge vector clocks, persist outbox IDs before sending, and only clean up
+ * content files after causal deletion review. Live Google/Drive behavior still requires
+ * real-device testing.
  */
 public final class DriveAppData {
  public interface Access {String accessToken(String googleSubject)throws Exception;}
