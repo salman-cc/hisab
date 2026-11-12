@@ -4,7 +4,7 @@
 
 ## Current audit pass
 
-This branch received a source-level review and limited safe repairs. The first GitHub Actions run on commit `572628b` passed wrapper validation, debug APK assembly, and the Android unit-test task on JDK 17 / SDK 36. The local workspace still has no Java/Javac, Gradle, Android SDK or emulator, so no local build/test or device verification is claimed. The first run warned that pinned actions used deprecated Node 20 and `ubuntu-latest` was migrating; the workflow has since been refreshed to Node 24 action releases and pinned to Ubuntu 24.04, pending a rerun. No merged-APK inspection or real-device verification is claimed. See `VERIFICATION.md` and `docs/PRE_REDESIGN_AUDIT.md`.
+This branch received a source-level review and limited safe repairs. The first GitHub Actions run on commit `572628b` passed wrapper validation, debug APK assembly, and the Android unit-test task on JDK 17 / SDK 36, but warned about deprecated Node 20 actions and `ubuntu-latest` migration. The workflow was refreshed to Node 24 action releases and pinned to Ubuntu 24.04; both the push and pull-request runs on commit `4ef373f` passed. The local workspace still has no Java/Javac, Gradle, Android SDK or emulator, so no local build/test or device verification is claimed. No merged-APK inspection or real-device verification is claimed. See `VERIFICATION.md` and `docs/PRE_REDESIGN_AUDIT.md`.
 
 The repository's old verification record reports 125 passing test methods. Current test source contains 131 methods across 19 test classes: four UI methods were added after the historical method list, and this audit adds CSV and backup-size regressions. The initial CI run completed the Android unit-test task successfully for the 131-method source tree, but its summary did not report an individual test count. Existing historical run claims were not independently reproduced.
 
@@ -18,7 +18,7 @@ The repository's old verification record reports 125 passing test methods. Curre
 
 ## Open release gates
 
-- Keep the refreshed CI green; the first run passed on commit `572628b`, but the Node 24 / Ubuntu 24.04 action update still needs its own run. Inspect the merged APK manifest, signing and dependency results; no artifact/manifest review has been recorded.
+- Keep the refreshed CI green; both push and pull-request runs passed on commit `4ef373f`. Inspect the merged APK manifest, signing and dependency results; no artifact/manifest review has been recorded.
 - Verify the Gradle 8.14.3 *distribution* SHA-256 from an official Gradle source before setting `distributionSha256Sum`. The checked-in wrapper JAR SHA-256 is verified against Gradle's wrapper-validation data; that is not the distribution checksum.
 - A source repair prevents new encrypted exports exceeding the existing 8 MiB restore limit; its boundary unit test was included in the successful initial CI task. The real file-picker/export/import path has not been exercised here. Previously saved files over that limit remain unimportable through the current app. Do not treat CSV/PDF as a recovery workaround.
 - Review the requested `userinfo.profile` scope with the owner. Current account-verification code reads subject/email fields and does not use a Google profile name or photo; scope changes remain intentionally untouched.
