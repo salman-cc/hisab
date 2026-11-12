@@ -1,10 +1,10 @@
 package in.aicon.pocket;
 import android.content.Context;import java.util.*;import java.util.concurrent.*;
 
-/** Explicit ledger selection and foreground work ownership. No Activity attaches
- * this controller yet. Identity verification alone never switches, copies or syncs.
- * Tokens live only here; only a matching session can use one. Stale callbacks are
- * discarded before notifying UI, which must rebuild views on a selection change.
+/** Explicit ledger selection and foreground work ownership used by QuickActivity.
+ * Identity verification alone never switches, copies or syncs. Tokens live only here;
+ * only a matching session can use one. Stale callbacks are discarded before notifying
+ * UI, which rebuilds its views on a selection change.
  */
 public final class LedgerController implements AutoCloseable {
  public enum State { LOCAL, OFFLINE, READY, SYNCING, CONFLICT, NEEDS_SIGN_IN, RESET_PENDING, RESET_DETECTED, DISCONNECT_PENDING, RETRY, ERROR }

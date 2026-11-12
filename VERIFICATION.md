@@ -1,6 +1,8 @@
-# 0.2.2-dev verification
+# 0.2.2-dev verification record
 
-125 distinct passing framework methods across 18 classes. All 39 LocalUiTest methods passed in seven bounded groups. No failed or timed-out broad run is counted. Simulated Android checks are not a real-device pass.
+## Earlier reported run — historical, not reproduced here
+
+The existing verification record reports 125 distinct passing framework methods across 18 classes, including 39 LocalUiTest methods in seven bounded groups. This inherited report is not evidence about the current source tree: four additional LocalUiTest methods were added later, and the current source has another regression test added during this audit. The table and method list below preserve the earlier report rather than claim a fresh run. Simulated Android checks are not a real-device pass.
 
 | Class | Methods | Failures |
 |---|---:|---:|
@@ -186,4 +188,12 @@
 - repeatedEditEnqueueKeepsOnePendingJobAndLocalSelectionCancelsIt
 - requestsUseSelectedSubjectNetworkConstraintsAndInexactThirtyMinuteCadence
 
-Packaged APK permissions, version and unchanged signing certificate independently checked. Legacy automatic-SMS grant cleanup, no SMS permission, reviewed composer and stale contact/ledger guards pass. Real Google sign-in/Drive round trips and phone install/Play Protect outcome remain unverified. Eight earlier pure Java programs were unchanged; their previous run evidence is not relabelled as a new run.
+The earlier report states that packaged APK permissions, version and signing certificate were independently checked and that legacy automatic-SMS cleanup, reviewed composers and stale contact/ledger guards passed. Those APK and execution results were not reproduced during this audit. Real Google sign-in/Drive round trips, phone installation and Play Protect outcome remain unverified. The eight root Java programs are unchanged; their earlier run evidence is not relabelled as a new run.
+
+## Current source inventory — 12 November 2026
+
+A source scan finds 131 `@Test` methods across 19 test classes: the 125 methods listed above, four later LocalUiTest methods, the `LedgerCsvTest.formulaPrefixesAndLeadingControlsAreEscapedAsText` CSV regression, and `BackupFlowTest.encryptedBackupExportLimitMatchesRestoreLimit`. The four later UI methods are `budgetProgressUsesSaturatedExactIntegerPercentages`, `chartTouchAnnouncesExactCumulativeAndCategoryAmounts`, `entrySearchAndKindFiltersStayWithinTheSelectedMonth`, and `monthlyCategoryChartLocalizesBuiltInLabels`. Source annotation counts are inventory only, not executed-test evidence.
+
+GitHub Actions run [43143726314](https://github.com/salman-cc/hisab/actions/runs/43143726314) on commit `572628b571ff0ed1d1ed7633f51520c48fa7a29f` completed successfully on 12 November 2026: wrapper validation, Java 17 setup, Android SDK 36 setup, `:app:assembleDebug`, and `:app:testDebugUnitTest` all passed. The source inventory remains 131 test methods; the workflow summary did not provide an extracted per-method count. This is CI evidence, not a device or Play verification.
+
+The local workspace has no Java/Javac, Gradle, Android SDK or emulator, so no local build or test ran. The initial CI run warned that the pinned action versions were using deprecated Node 20 and that `ubuntu-latest` was migrating. After updating to Node 24 action releases and pinning Ubuntu 24.04, both the push run [43144750788](https://github.com/salman-cc/hisab/actions/runs/43144750788) and pull-request run [43144756948](https://github.com/salman-cc/hisab/actions/runs/43144756948) passed on commit `4ef373f4fd566fd2bba1e1c0a6622e5134af9ceb`. No merged-APK permission/signing inspection, device test, or root Java program run is claimed.

@@ -2,9 +2,10 @@ package in.aicon.pocket;
 import android.content.ContentValues;import android.database.Cursor;import android.database.sqlite.SQLiteDatabase;
 import java.util.*;import org.json.*;
 
-/** Account-ledger adapter. Not connected to the launcher until full sync is verified.
- * Capture must share the user's edit transaction. Remote merge atomically updates
- * canonical records, outbox and visible tables, or keeps all previous data on error.
+/** Account-ledger adapter used by LedgerSession for canonical records and sync state.
+ * Capture shares the user's edit transaction. Remote merge atomically updates canonical
+ * records, outbox and visible tables, or keeps all previous data on error. Live Google
+ * and Drive behavior still requires real-device verification.
  */
 public final class LedgerSyncStore implements SyncEngine.Store {
  private final SQLiteDatabase db;private final SqliteSyncStore state;private final CatalogStore catalog;private final SettingsStore settings;private final ConflictReviewStore reviews;private final RepaymentReviewStore repayments;

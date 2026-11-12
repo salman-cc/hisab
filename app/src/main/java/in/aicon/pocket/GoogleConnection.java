@@ -105,8 +105,8 @@ public final class GoogleConnection implements AutoCloseable {
   });
  }
  private void stop(long g,String message){if(!current(g))return;active=false;selectedEmail=null;expectedSubject=null;listener.stopped(message);}
- /** Sign out is separate from cloud deletion and does not claim remote data removal.
-  * Caller must cancel WorkManager sync and invalidate AccountScope before calling.
+ /** Credential-manager account-choice clearing is separate from cloud deletion.
+  * Callers must stop selected WorkManager work and invalidate the matching session first.
   */
  public void clearAccountChoice(Runnable complete){
   main();cancel();if(closed)return;

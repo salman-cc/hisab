@@ -1,10 +1,11 @@
 package in.aicon.pocket;
 import android.content.Context;import android.database.sqlite.SQLiteDatabase;import java.util.*;
 
-/** One explicit ledger owner per session. Not attached to the preview Activity yet.
- * Callers receive a generation ticket, never a database from an old account picker.
- * Every cloud edit and its validated outbox capture succeed or roll back together.
- * Session operations are serialized; changing the active account closes this session.
+/** One explicit ledger owner per session. The launcher-facing QuickActivity retains
+ * this session through LedgerController; form edits and account operations use tickets.
+ * Callers never receive a database from an old account picker. Every cloud edit and its
+ * validated outbox capture succeed or roll back together. Session operations are
+ * serialized; changing the active account closes this session.
  */
 public final class LedgerSession implements AutoCloseable {
  public interface Edit {void run(SQLiteDatabase db,CatalogStore catalog,SettingsStore settings)throws Exception;}
@@ -18,8 +19,8 @@ public final class LedgerSession implements AutoCloseable {
  public static LedgerSession remembered(Context context,AccountDirectory directory,String subject)throws Exception{if(directory.find(subject)==null)throw new IllegalArgumentException("Account must first be verified on this device");SQLiteDatabase db=context.openOrCreateDatabase(AccountScope.databaseFor(subject),0,null);try{return new LedgerSession(db,subject);}catch(Exception e){db.close();throw e;}}
  /** The factory requires a live verified account, not an email, persisted claim or parsed ID token. */
  public static LedgerSession connected(Context context,VerifiedDriveAccess access)throws Exception{Objects.requireNonNull(access).accessToken(access.subject);SQLiteDatabase db=context.openOrCreateDatabase(AccountScope.databaseFor(access.subject),0,null);try{return new LedgerSession(db,access.subject);}catch(Exception e){db.close();throw e;}}
- // Offline-account session is opened only through an authenticated app account-selection workflow,
- // which remains unimplemented. No method here silently selects/adopts a local ledger.
+ // Remembered account caches are opened by explicit selection; this factory only checks
+ // the device's previously verified directory entry. It never authorizes or copies data.
  public static final class FormTicket {private final Ticket account;private final long version,revision;private FormTicket(Ticket account,long version,long revision){this.account=account;this.version=version;this.revision=revision;}}
  private long revisionForForm(){try{return sync==null?0:sync.snapshot().revision;}catch(Exception e){throw new IllegalStateException("Ledger state cannot be read",e);}}
  public synchronized FormTicket formTicket(){return new FormTicket(ticket(),contentVersion,revisionForForm());}

@@ -5,9 +5,9 @@ Original Android personal ledger, separate from the AiCoN reader. Package `in.ai
 Local-only is the default. Optional Google account UI and own-Drive app-data sync are enabled in this candidate, with INTERNET permission. Actual Google sign-in and Drive end-to-end behavior have NOT been verified on a phone or emulator. Do not treat compiled code or simulated tests as a live pass.
 
 ## Build
-Use Java 17, Gradle 8.14.3, AGP 8.13.2 and Android SDK platform 36. Set ANDROID_HOME or an untracked local.properties with sdk.dir, then run `gradle :app:assembleDebug`. Dependencies come from Google Maven and Maven Central. No SDK, signing key, credentials, caches or private build overrides are included.
+Use Java 17, the checked-in Gradle 8.14.3 wrapper, AGP 8.13.2 and Android SDK platform 36. Set ANDROID_HOME or an untracked local.properties with sdk.dir, then run `./gradlew :app:assembleDebug` (Windows: `gradlew.bat :app:assembleDebug`). Dependencies come from Google Maven and Maven Central. No SDK, signing key, credentials, caches or private build overrides are included. CI validates the wrapper JAR and runs the debug build plus the framework-test task. The wrapper distribution URL is version-pinned; its official distribution SHA-256 still needs independent verification before adding `distributionSha256Sum`.
 
-Run `gradle :app:testDebugUnitTest` for Android-framework simulation tests. On limited hosts, run bounded groups of classes rather than one all-class native-graphics run. Root Java *Test.java programs are pure checks; compile with their corresponding pure model classes. These are not phone performance or OS execution tests.
+Run `./gradlew :app:testDebugUnitTest` for Android-framework simulation tests. On limited hosts, run bounded groups of classes rather than one all-class native-graphics run. Root Java *Test.java programs are pure checks; compile with their corresponding pure model classes. These are not phone performance or OS execution tests.
 
 The registered Android OAuth client is tied to the private preview certificate and this package. Ordinary debug keys are different and cannot reuse that Android registration unchanged. Client IDs are public configuration, not secrets. Never include a client secret or signing key in source.
 

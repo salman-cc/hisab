@@ -1,9 +1,9 @@
 package in.aicon.pocket;
 import java.util.*;
 
-/** Reset-aware operation transport. It is not wired to the live Drive client yet.
- * A new barrier stops the run before local merge/upload. An in-flight append from
- * before a reset remains tagged with its old view and is filtered out on next pull.
+/** Reset-aware operation transport used by LedgerSession with DriveBarrierTransport.
+ * A new barrier stops the run before local merge/upload. An in-flight append from before
+ * a reset remains tagged with its old view and is filtered out on the next pull.
  */
 public final class BarrierRemote implements SyncEngine.Remote {
  public interface Transport {

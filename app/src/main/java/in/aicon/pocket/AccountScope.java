@@ -4,9 +4,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Objects;
 
-/** Unwired account-partition boundary. All DB/Drive work must hold a current Ticket.
- * Switching, disconnecting, or deleting cloud data invalidates in-flight results.
- * Never adopts or moves a local ledger as an incidental effect of sign-in.
+/** Account subject validation and deterministic database-name helper. The Ticket
+ * methods remain a standalone boundary model; production session ownership and stale
+ * operation checks are enforced by LedgerSession and LedgerController. This class never
+ * moves a local ledger as an incidental effect of sign-in.
  */
 public final class AccountScope {
  public static final String LOCAL_DATABASE="pocket.db";

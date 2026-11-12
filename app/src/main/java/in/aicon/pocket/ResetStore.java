@@ -1,9 +1,10 @@
 package in.aicon.pocket;
 import android.content.ContentValues;import android.database.Cursor;import android.database.sqlite.SQLiteDatabase;import java.util.*;
 
-/** Durable reset history for one account ledger. NOT connected to app/Drive yet.
- * Does not delete remote files. A reset marker must already be durably published,
- * re-read and acknowledged by the caller before applyObserved is offered to a user.
+/** Durable local reset history for one account ledger, used by LedgerSession and
+ * ResetCoordinator. This store does not contact Drive or delete remote files itself.
+ * A reset marker must already be durably published and re-read before the caller can
+ * acknowledge it or offer the corresponding destructive choice to the user.
  */
 public final class ResetStore {
  private final SQLiteDatabase db;

@@ -2,9 +2,9 @@ package in.aicon.pocket;
 import android.content.ContentValues;import android.database.Cursor;import android.database.sqlite.SQLiteDatabase;
 import java.util.*;
 
-/** Unwired, transactional per-account sync state and outbox. This is NOT the adapter
- * for the visible tx/budget/goal tables yet. That adapter must update ledger and sync
- * state together, validate the merged whole ledger, and never attach to the local DB.
+/** Transactional per-account canonical sync state and outbox, composed by
+ * LedgerSyncStore with the visible tx/budget/goal adapter. LedgerSession coordinates
+ * both under the account session. Never attach this store to the local-only database.
  */
 public final class SqliteSyncStore implements SyncEngine.Store {
  private final SQLiteDatabase db;

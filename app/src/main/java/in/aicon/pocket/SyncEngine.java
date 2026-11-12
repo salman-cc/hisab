@@ -3,9 +3,9 @@ package in.aicon.pocket;
 import java.io.IOException;
 import java.util.*;
 
-/** Pure, unwired synchronization coordinator. Storage adapters must enforce the stated
- * transactional contract; live Drive behavior and adapters still require testing.
- * No last-writer-wins clock timestamps, no log of financial content, no silent conflicts.
+/** Pure synchronization coordinator used by LedgerSession and its account stores.
+ * Storage adapters enforce the transactional contract; live Google/Drive behavior still
+ * requires real-device testing. No timestamp-based last-writer-wins or silent conflicts.
  */
 public final class SyncEngine {
  public static final class ChangedDuringSync extends IOException {public ChangedDuringSync(){super("Ledger changed during sync; retry with a fresh snapshot");}}
